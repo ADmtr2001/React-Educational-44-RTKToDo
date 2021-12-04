@@ -5,35 +5,35 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ShuffleIcon from "@mui/icons-material/Shuffle";
 import { useDispatch } from "react-redux";
 import {
-  clearListAction,
-  shuffleItemsAction,
-  sortItemsAction,
-} from "../store/actions/listActions";
+  sortItems,
+  clearList,
+  shuffleItems,
+} from "../store/reducers/listSlice";
 
 const Buttons = () => {
   const dispatch = useDispatch();
 
-  const sortItems = () => {
-    dispatch(sortItemsAction());
+  const sortCurrentItems = () => {
+    dispatch(sortItems());
   };
 
-  const clearList = () => {
-    dispatch(clearListAction());
+  const clearCurrentList = () => {
+    dispatch(clearList());
   };
 
-  const shuffleItems = () => {
-    dispatch(shuffleItemsAction());
+  const shuffleCurrentItems = () => {
+    dispatch(shuffleItems());
   };
 
   return (
     <Container>
-      <Button onClick={sortItems}>
+      <Button onClick={sortCurrentItems}>
         <SortByAlphaIcon fontSize='large' />
       </Button>
-      <Button onClick={shuffleItems}>
+      <Button onClick={shuffleCurrentItems}>
         <ShuffleIcon fontSize='large' />
       </Button>
-      <Button onClick={clearList}>
+      <Button onClick={clearCurrentList}>
         <ClearIcon fontSize='large' />
       </Button>
     </Container>

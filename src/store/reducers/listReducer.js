@@ -1,3 +1,4 @@
+import { createAction, createReducer } from "@reduxjs/toolkit";
 import { compareTextAZ, compareTextZA, shuffleArray } from "../../helpers";
 import {
   ADD_ITEM,
@@ -12,34 +13,31 @@ const initialState = {
   sort: "a-z",
 };
 
-const listReducer = (state = initialState, action) => {
-  if (action.type === ADD_ITEM) {
-    const newList = [action.payload, ...state.list];
-    return { ...state, list: newList };
-  }
-  if (action.type === REMOVE_ITEM) {
-    const newList = state.list.filter((elem) => elem.id !== action.payload);
-    return { ...state, list: newList };
-  }
-  if (action.type === SORT_ITEMS) {
-    const sortedList =
+export const addItem = createAction(ADD_ITEM);
+export const removeItem = createAction(REMOVE_ITEM);
+export const clearList = createAction(CLEAR_LIST);
+export const shuffleItems = createAction(SHUFFLE_ITEMS);
+export const sortItems = createAction(SORT_ITEMS);
+
+export default createReducer(initialState, {
+  [addItem]: function (state, action) {
+    state.list.unshift(action.payload);
+  },
+  [removeItem]: function (state, action) {
+    state.list = state.list.filter((item) => item.id !== action.payload);
+  },
+  [clearList]: function (state) {
+    state.list = [];
+  },
+  [shuffleItems]: function (state) {
+    state.list = shuffleArray(state.list);
+  },
+  [sortItems]: function (state) {
+    console.log(state.sort);
+    state.list =
       state.sort === "a-z"
         ? state.list.slice().sort(compareTextAZ)
         : state.list.slice().sort(compareTextZA);
-    console.log(sortedList);
-    return {
-      ...state,
-      list: sortedList,
-      sort: state.sort === "a-z" ? "z-a" : "a-z",
-    };
-  }
-  if (action.type === SHUFFLE_ITEMS) {
-    return { ...state, list: shuffleArray(state.list) };
-  }
-  if (action.type === CLEAR_LIST) {
-    return { ...state, list: [] };
-  }
-  return state;
-};
-
-export default listReducer;
+    state.sort = state.sort === "a-z" ? "z-a" : "a-z";
+  },
+});

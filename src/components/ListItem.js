@@ -1,16 +1,18 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { removeItemAction } from "../store/actions/listActions";
+import { removeItem } from "../store/reducers/listSlice";
 
 const ListItem = (props) => {
   const dispatch = useDispatch();
-  const removeItem = (id) => {
-    dispatch(removeItemAction(id));
+  const removeCurrentItem = (id) => {
+    dispatch(removeItem(id));
   };
 
   return (
-    <Container onClick={() => removeItem(props.id)}>{props.text}</Container>
+    <Container onClick={() => removeCurrentItem(props.id)}>
+      {props.text}
+    </Container>
   );
 };
 

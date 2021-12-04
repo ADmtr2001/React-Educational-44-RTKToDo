@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { addItemAction } from "../store/actions/listActions";
+import { addItem } from "../store/reducers/listSlice";
 
 const Form = () => {
   const dispatch = useDispatch();
   const [inputText, setInputText] = useState("");
 
-  const addItem = (e) => {
+  const addNewItem = (e) => {
     e.preventDefault();
-    dispatch(addItemAction({ id: Date.now(), text: inputText }));
+    dispatch(addItem({ id: Date.now(), text: inputText }));
     setInputText("");
   };
 
@@ -21,7 +21,7 @@ const Form = () => {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <Button type='submit' onClick={(e) => addItem(e)}>
+      <Button type='submit' onClick={(e) => addNewItem(e)}>
         Go!
       </Button>
     </Container>
